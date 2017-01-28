@@ -26,6 +26,7 @@ class HttpfulTransport extends BaseTransport
         if ($this->isAuthenticated()) {
             $request->addHeader("Authorization", "Bearer " . $this->token->getValue());
         }
+      
         $request->sends('application/json');
         $request->expects('application/json');
 

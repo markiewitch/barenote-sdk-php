@@ -27,7 +27,7 @@ class BarenoteClient
 
         $this->endpoints['authentication'] = new Authentication($this->transport);
     }
-
+  
     public function authenticate(string $username, string $password): Token
     {
         $credentials = new Credentials($username, $password);
