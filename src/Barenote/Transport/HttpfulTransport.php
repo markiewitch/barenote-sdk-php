@@ -3,7 +3,6 @@ namespace Barenote\Transport;
 
 use Barenote\Enum\HttpMethod;
 use Httpful\Request;
-use Httpful\Response;
 
 /**
  * Class HttpfulTransport
@@ -11,11 +10,14 @@ use Httpful\Response;
  */
 class HttpfulTransport extends BaseTransport
 {
-    public function sendRequest(HttpMethod $method, string $url, string $body): Response
+    public function prepare(HttpMethod $method, string $url, string $body = ""): Request
     {
         switch ($method) {
             case HttpMethod::POST():
                 $request = $this->post($url, $body);
+                break;
+            case HttpMethod::GET():
+                $request = $this->get($url);
                 break;
             default:
                 throw new \Exception("Method not recognised");
@@ -25,7 +27,7 @@ class HttpfulTransport extends BaseTransport
             $request->addHeader("Authorization", "Bearer " . $this->token->getValue());
         }
 
-        return $request->send();
+        return $request;
     }
 
     /**
@@ -36,5 +38,14 @@ class HttpfulTransport extends BaseTransport
     private function post(string $url, string $body)
     {
         return Request::post($this->host . $url, $body);
+    }
+
+    /**
+     * @param string $url
+     * @return Request
+     */
+    private function get(string $url)
+    {
+        return Request::get($this->host . $url);
     }
 }

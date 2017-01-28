@@ -27,7 +27,7 @@ class Authentication
         $body   = json_encode($credentials);
         $url    = self::URL_LOGIN;
 
-        $response = $this->transport->sendRequest($method, $url, $body);
+        $response = $this->transport->prepare($method, $url, $body)->send();
 
         if ($response->code === 403) {
             throw new \Exception("Invalid credentials");
@@ -48,7 +48,7 @@ class Authentication
         );
         $url    = self::URL_REGISTER;
 
-        $response = $this->transport->sendRequest($method, $url, $body);
+        $response = $this->transport->prepare($method, $url, $body)->send();
 
         return $response->code == 201;
     }

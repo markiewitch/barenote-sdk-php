@@ -3,6 +3,7 @@ namespace Barenote\Transport;
 
 use Barenote\Domain\Token;
 use Barenote\Enum\HttpMethod;
+use Httpful\Request;
 use Httpful\Response;
 
 interface Transport
@@ -11,5 +12,5 @@ interface Transport
 
     public function setToken(Token $token);
 
-    public function sendRequest(HttpMethod $method, string $url, string $body): Response;
+    public function prepare(HttpMethod $method, string $url, string $body): Request;
 }
