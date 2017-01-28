@@ -1,0 +1,28 @@
+{
+    "name": "marszczybrew/barenote-sdk-php",
+    "description": "SDK for BareNote for PHP",
+    "type": "library",
+    "require": {
+        "nategood/httpful": "^0.2.20",
+        "spomky-labs/jose": "^6.1",
+        "myclabs/php-enum": "^1.5"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^3.0"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michał Markiewicz",
+            "email": "markiewicz.m@outlook.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Barenote\\": "src/Barenote"
+        }
+    }
+}
