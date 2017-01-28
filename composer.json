@@ -1,5 +1,5 @@
 {
-    "name": "marszczybrew/barenote-sdk-php",
+    "name": "dzikismigol/barenote-sdk-php",
     "description": "SDK for BareNote for PHP",
     "type": "library",
     "require": {
