@@ -54,7 +54,6 @@ class Notes
 
         $this->notes->clear();
         foreach ($notes->body->notes as $note) {
-            var_dump((array)$note);
             $this->notes->add(NoteFactory::fromArray((array)$note));
         }
         $this->notes->update();
