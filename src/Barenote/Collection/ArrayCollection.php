@@ -146,6 +146,7 @@ class ArrayCollection implements \Countable, \IteratorAggregate, \ArrayAccess, \
     }
 
     public function jsonSerialize()
+
     {
         return $this->toArray();
     }

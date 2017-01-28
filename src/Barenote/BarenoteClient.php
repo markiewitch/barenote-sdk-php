@@ -5,6 +5,7 @@ namespace Barenote;
 use Barenote\Domain\Credentials;
 use Barenote\Domain\Token;
 use Barenote\Endpoint\Authentication;
+use Barenote\Endpoint\Notes;
 use Barenote\Transport\HttpfulTransport;
 use Barenote\Transport\Transport;
 
@@ -26,6 +27,7 @@ class BarenoteClient
         $this->transport->setHost($host);
 
         $this->endpoints['authentication'] = new Authentication($this->transport);
+        $this->endpoints['notes'] = new Notes($this->transport);
     }
   
     public function authenticate(string $username, string $password): Token
@@ -43,5 +45,13 @@ class BarenoteClient
     private function getAuthenticationEndpoint()
     {
         return $this->endpoints['authentication'];
+    }
+
+    /**
+     * @return Notes
+     */
+    public function getNotesEndpoint()
+    {
+        return $this->endpoints['notes'];
     }
 }

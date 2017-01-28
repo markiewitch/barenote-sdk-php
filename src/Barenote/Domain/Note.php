@@ -107,7 +107,7 @@ class Note implements \JsonSerializable
 
         return $this;
     }
-
+  
     /**
      * @return array
      */
