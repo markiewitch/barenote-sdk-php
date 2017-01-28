@@ -20,10 +20,6 @@ class Note implements \JsonSerializable
      */
     private $categoryId;
     /**
-     * @var string[]
-     */
-    private $tags;
-    /**
      * @var string
      */
     private $title;
@@ -75,25 +71,6 @@ class Note implements \JsonSerializable
     }
 
     /**
-     * @return \string[]
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    /**
-     * @param \string[] $tags
-     * @return Note
-     */
-    public function setTags(array $tags)
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getTitle()
@@ -130,8 +107,11 @@ class Note implements \JsonSerializable
 
         return $this;
     }
-
-    function jsonSerialize()
+  
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
     {
         return [
             'id'          => $this->getId() === null ?: $this->getId()->getValue(),
