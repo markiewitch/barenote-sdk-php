@@ -19,6 +19,9 @@ class HttpfulTransport extends BaseTransport
             case HttpMethod::GET():
                 $request = $this->get($url);
                 break;
+            case HttpMethod::PUT():
+                $request = $this->put($url, $body);
+                break;
             default:
                 throw new \Exception("Method not recognised");
         }
@@ -50,5 +53,15 @@ class HttpfulTransport extends BaseTransport
     private function get(string $url)
     {
         return Request::get($this->host . $url);
+    }
+
+    /**
+     * @param string $url
+     * @param string $body
+     * @return Request
+     */
+    private function put(string $url, string $body)
+    {
+        return Request::put($this->host . $url, $body);
     }
 }
