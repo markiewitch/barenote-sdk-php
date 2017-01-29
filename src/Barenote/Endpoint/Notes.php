@@ -47,13 +47,13 @@ class Notes
         if (!$this->transport->isAuthenticated()) {
             throw new NotAuthenticated("You must be authenticated to fetch notes");
         }
-        $notes = $this->transport->prepare(HttpMethod::GET(), self::URL_NOTES, "")->send();
-        if ($notes->code !== 200) {
+        $response = $this->transport->prepare(HttpMethod::GET(), self::URL_NOTES, "")->send();
+        if ($response->code !== 200) {
             throw new \HttpException("Something went wrong while fetching notes");
         }
 
         $this->notes->clear();
-        foreach ($notes->body->notes as $note) {
+        foreach ($response->body->notes as $note) {
             $this->notes->add(NoteFactory::fromArray((array)$note));
         }
         $this->notes->update();
@@ -65,37 +65,46 @@ class Notes
      */
     public function getOne(NoteId $id)
     {
-        if ($this->notes->getUpdatedAt() === null) {
-            $this->fetch();
-        }
-
-        return $this->notes->find($id)->firstOrNull();
+        return $this->getAll()->find($id)->firstOrNull();
     }
 
     /**
+     * Update existing note
+     * @param Note $note
+     * @return void
+     * @throws \HttpException
+     */
+    public function update(Note $note)
+    {
+        $request  = $this->transport->prepare(
+            HttpMethod::PUT(),
+            self::URL_NOTES . "/{$note->getId()->getValue()}",
+            json_encode($note)
+        );
+        $response = $request->send();
+
+        if ($response->code !== 200) {
+            throw new \HttpException("Something went wrong while saving note");
+        }
+    }
+
+    /**
+     * Insert a new note to the system
      * @param Note $note
      * @return NoteId
      * @throws \HttpException
      */
-    public function saveOne(Note $note)
+    public function insert(Note $note)
     {
-        if ($note->getId() !== null) {
-            $request = $this->transport->prepare(
-                HttpMethod::PUT(),
-                self::URL_NOTES . "/{$note->getId()->getValue()}",
-                json_encode($note)
-            );
-        } else {
-            $request = $this->transport->prepare(
-                HttpMethod::POST(),
-                self::URL_NOTES,
-                json_encode($note)
-            );
-        }
+        $request  = $this->transport->prepare(
+            HttpMethod::POST(),
+            self::URL_NOTES,
+            json_encode($note)
+        );
         $response = $request->send();
 
-        if ($response->code > 201 || $response->code < 200) {
-            throw new \HttpException("Something went wrong while saving note");
+        if ($response->code !== 201) {
+            throw new \HttpException("Something went wrong while saving new note.");
         }
 
         return new NoteId($response->body->id);
