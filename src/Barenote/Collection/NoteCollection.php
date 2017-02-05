@@ -27,7 +27,7 @@ class NoteCollection extends ArrayCollection
     {
         return $this->filter(
             function (Note $note) use ($id) {
-                return $note->getId() === $id;
+                return $note->getId()->getValue() === $id->getValue();
             }
         );
     }
